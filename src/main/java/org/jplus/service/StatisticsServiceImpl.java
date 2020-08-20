@@ -1,6 +1,7 @@
 package org.jplus.service;
 
-import org.jplus.dto.LastRecordingDTO;
+import org.jplus.pojo.UserDO;
+import org.jplus.translate.LastRecordingDTO;
 import org.jplus.mapper.StatisticsMapper;
 import org.jplus.pojo.AnswerDO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,12 @@ public class StatisticsServiceImpl implements StatisticsService {
     private StatisticsMapper statisticsMapper;
 
     @Override
-    public List<Integer> getCountSort(String type) {
+    public List<UserDO> getCountSort(String type) {
         return statisticsMapper.getCountSort(type);
     }
 
     @Override
-    public List<Integer> getCorrectRateSort(String type) {
+    public List<UserDO> getCorrectRateSort(String type) {
         return statisticsMapper.getCorrectRateSort(type);
     }
 

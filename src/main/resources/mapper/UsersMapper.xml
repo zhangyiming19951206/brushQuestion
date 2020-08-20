@@ -15,7 +15,7 @@
     </delete>
 
     <select id="getUser" parameterType="java.lang.Integer" resultType="org.jplus.pojo.UserDO">
-        SELECT * FROM user WHERE id=#{id};
+        SELECT name, school, vendor FROM user WHERE id=#{id};
     </select>
 
     <update id="updateUser" parameterType="org.jplus.pojo.UserDO">

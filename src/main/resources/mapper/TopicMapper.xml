@@ -6,8 +6,8 @@
 
 <mapper namespace="org.jplus.mapper.TopicMapper">
 
-    <select id="generatePaper" resultType="java.lang.Integer">
-        SELECT tid FROM topic ORDER BY RAND() limit 3;
+    <select id="generatePaper" resultType="org.jplus.pojo.TopicDO">
+        SELECT title, type, content, answer, gmt_create FROM topic ORDER BY RAND() limit 3;
     </select>
 
     <insert id="insertTestPaper" parameterType="org.jplus.pojo.PaperDO">

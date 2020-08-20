@@ -1,12 +1,15 @@
 package org.jplus.controller;
 
 import org.jplus.constant.Constants;
+import org.jplus.exception.CommonEnum;
 import org.jplus.exception.ResultBody;
 import org.jplus.pojo.AnswerDO;
 import org.jplus.pojo.PaperDO;
 import org.jplus.pojo.RankDO;
+import org.jplus.pojo.TopicDO;
 import org.jplus.service.RankService;
 import org.jplus.service.TopicService;
+import org.jplus.translate.QueryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +38,13 @@ public class TopicController {
     @ResponseBody
     public ResultBody insertTestPaper(@PathVariable("id") Integer id) {
         // 得到试题的题号
-        List<Integer> testPaper = topicService.generatePaper();
+        List<TopicDO> testPaper = topicService.generatePaper();
         StringBuilder sb = new StringBuilder();
         if (testPaper != null && testPaper.size() > 0) {
-            sb.append(testPaper.get(0));
+            sb.append(testPaper.get(0).getTid());
             for (int i = 1; i < testPaper.size(); i++) {
                 sb.append(",");
-                sb.append(testPaper.get(i));
+                sb.append(testPaper.get(i).getTid());
             }
         }
         PaperDO paper = new PaperDO();
@@ -63,7 +66,8 @@ public class TopicController {
     @PostMapping("/paper/commit/{uid}/{id}")
     @ResponseBody
     @Transactional
-    public ResultBody postPaper(@PathVariable("uid") Integer uid, @PathVariable("id") Integer id, String[] user_answer) {
+    public ResultBody postPaper(@PathVariable("uid") Integer uid, @PathVariable("id") Integer id, @RequestBody QueryVO queryVO) {
+        String[] user_answer = queryVO.getUser_answer();
         AnswerDO answerDO = new AnswerDO();
         RankDO rankDO = new RankDO();
         // 根据试卷 id 从 paper 表中查询出试卷包含的题目，然后对比答案
@@ -99,7 +103,7 @@ public class TopicController {
             } else {
                 // 回答错误
                 if (rankInfo == null) {
-                    rankDO.setCorrect(0);
+                    rankDO.setCorrect(Constants.ANSWER_WRONG);
                 } else {
                     rankDO.setCorrect(rankInfo.getCorrect());
                 }
@@ -130,12 +134,15 @@ public class TopicController {
     // 用户提交任意多道题的答案
     @PostMapping("/multi")
     @ResponseBody
-    public List<Integer> postTopics(Integer[] tids, String[] user_answer) {
+    public ResultBody postTopics(@RequestBody QueryVO queryVO) {
+        if (queryVO.getTids().length != queryVO.getUser_answer().length) {
+            return ResultBody.error(CommonEnum.INVALID_PARAMETER);
+        }
         // 根据题目 tid 从 topic 表中查询出题目的答案, 然后比对答案
         List<Integer> res = new ArrayList<>();
-        for (int i = 0; i < tids.length; i++) {
-            String answer = topicService.getTopicAnswer(tids[i]);
-            if (user_answer[i].equals(answer)) {
+        for (int i = 0; i < queryVO.getTids().length; i++) {
+            String answer = topicService.getTopicAnswer(queryVO.getTids()[i]);
+            if (queryVO.getUser_answer()[i].equals(answer)) {
                 // 该题回答正确
                 res.add(Constants.ANSWER_RIGHT);
             } else {
@@ -143,6 +150,6 @@ public class TopicController {
                 res.add(Constants.ANSWER_WRONG);
             }
         }
-        return res;
+        return ResultBody.success();
     }
 }

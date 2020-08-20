@@ -3,6 +3,7 @@ package org.jplus.service;
 import org.jplus.mapper.TopicMapper;
 import org.jplus.pojo.AnswerDO;
 import org.jplus.pojo.PaperDO;
+import org.jplus.pojo.TopicDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class TopicServiceImpl implements TopicService {
     private TopicMapper topicMapper;
 
     @Override
-    public List<Integer> generatePaper() {
+    public List<TopicDO> generatePaper() {
         return topicMapper.generatePaper();
     }
 

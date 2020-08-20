@@ -1,5 +1,6 @@
 package org.jplus.pojo;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 /**
@@ -7,7 +8,9 @@ import java.sql.Timestamp;
  * @date 2020/8/13
  */
 public class TopicDO {
+    @NotNull
     private Integer tid;
+
     private String title;
     private String type;
     private String content;

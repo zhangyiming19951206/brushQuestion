@@ -2,11 +2,12 @@ package org.jplus.service;
 
 import org.jplus.pojo.AnswerDO;
 import org.jplus.pojo.PaperDO;
+import org.jplus.pojo.TopicDO;
 
 import java.util.List;
 
 public interface TopicService {
-    List<Integer> generatePaper();
+    List<TopicDO> generatePaper();
 
     void insertTestPaper(PaperDO testPaper);
 

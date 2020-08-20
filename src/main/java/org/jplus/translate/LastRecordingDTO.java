@@ -1,4 +1,4 @@
-package org.jplus.dto;
+package org.jplus.translate;
 
 import org.jplus.pojo.AnswerDO;
 

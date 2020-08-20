@@ -3,13 +3,14 @@ package org.jplus.mapper;
 import org.apache.ibatis.annotations.Param;
 import org.jplus.pojo.AnswerDO;
 import org.jplus.pojo.PaperDO;
+import org.jplus.pojo.TopicDO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface TopicMapper {
-    List<Integer> generatePaper();
+    List<TopicDO> generatePaper();
 
     void insertTestPaper(PaperDO testPaper);
 

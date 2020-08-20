@@ -6,24 +6,32 @@
 
 <mapper namespace="org.jplus.mapper.StatisticsMapper">
 
-    <select id="getCountSort" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT id FROM answer WHERE type=#{type} GROUP BY id ORDER BY COUNT(id) desc LIMIT 10;
+    <select id="getCountSort" parameterType="java.lang.String" resultType="org.jplus.pojo.UserDO">
+        SELECT u.name, school, vendor FROM user u INNER JOIN answer a ON u.id=a.id
+        WHERE type=#{type}
+        GROUP BY a.id
+        ORDER BY COUNT(a.id) desc LIMIT 10;
     </select>
 
-    <select id="getCorrectRateSort" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT id FROM answer WHERE type=#{type} GROUP BY id ORDER BY (COUNT(right_or_wrong) / COUNT(id)) desc LIMIT 10;
+    <select id="getCorrectRateSort" parameterType="java.lang.String" resultType="org.jplus.pojo.UserDO">
+        SELECT u.name, school, vendor FROM user u INNER JOIN answer a ON u.id=a.id
+         WHERE type=#{type}
+         GROUP BY a.id
+         ORDER BY (COUNT(right_or_wrong) / COUNT(a.id)) desc LIMIT 10;
     </select>
 
     <select id="getUserCountSortBySchool" resultType="java.lang.Integer">
-        SELECT (SELECT COUNT(DISTINCT count) FROM rank AS b WHERE school=#{school} AND b.count > a.count) + 1 AS number FROM rank as a WHERE type=#{type} AND userid=#{uid} ORDER BY number;
+        SELECT (SELECT COUNT(DISTINCT count) FROM rank AS b
+        WHERE school=#{school} AND b.count > a.count) + 1 AS number FROM rank as a
+        WHERE type=#{type} AND userid=#{uid}
+        ORDER BY number;
     </select>
 
     <select id="getUserCorrectSortBySchool" resultType="java.lang.Integer">
-        SELECT (SELECT COUNT(DISTINCT correct) FROM rank AS b WHERE school=#{school} AND b.correct/b.count > a.correct/a.count) + 1 AS number FROM rank as a WHERE type=#{type} AND userid=#{uid} ORDER BY number;
-    </select>
-
-    <select id="getLastRecordingById" parameterType="java.lang.Integer" resultType="org.jplus.dto.LastRecordingDTO">
-
+        SELECT (SELECT COUNT(DISTINCT correct) FROM rank AS b
+        WHERE school=#{school} AND b.correct/b.count > a.correct/a.count) + 1 AS number FROM rank as a
+        WHERE type=#{type} AND userid=#{uid}
+        ORDER BY number;
     </select>
 
     <select id="getLastPaperId" parameterType="java.lang.Integer" resultType="java.lang.Integer">

@@ -1,7 +1,6 @@
 package org.jplus.controller;
 
 import org.jplus.constant.Constants;
-import org.jplus.exception.BizException;
 import org.jplus.exception.ResultBody;
 import org.jplus.pojo.UserDO;
 import org.jplus.service.UserService;
@@ -49,5 +48,4 @@ public class UserController {
         userService.updateUser(user);
         return ResultBody.success();
     }
-
 }

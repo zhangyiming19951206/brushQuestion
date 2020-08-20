@@ -1,6 +1,6 @@
 package org.jplus.pojo;
 
-import java.sql.Date;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +8,9 @@ import java.sql.Timestamp;
  * @date 2020/8/13
  */
 public class UserDO {
+    @NotNull
     private Integer id;
+
     private String name;
     private String school;
     private Integer vendor;

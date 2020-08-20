@@ -1,14 +1,15 @@
 package org.jplus.controller;
 
+import org.jplus.exception.CommonEnum;
 import org.jplus.exception.ResultBody;
 import org.jplus.pojo.AnswerDO;
+import org.jplus.pojo.UserDO;
 import org.jplus.service.StatisticsService;
+import org.jplus.translate.QueryVO;
+import org.jplus.utils.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,35 +28,48 @@ public class StatisticsController {
     // 每种类型题目的刷题量排行榜 TOP 10
     @GetMapping("/count/sort/get")
     @ResponseBody
-    public ResultBody getCountSort(String type) {
-        List<Integer> res = statisticsService.getCountSort(type);
+    public ResultBody getCountSort(@RequestBody QueryVO queryVO) {
+        String type = queryVO.getType();
+        if (!Validation.validateQuestionType(type)) {
+            return ResultBody.error(CommonEnum.INVALID_PARAMETER);
+        }
+        List<UserDO> res = statisticsService.getCountSort(type);
         return ResultBody.success(res);
     }
 
     // 每种类型题目正确率排行榜 TOP 10
     @GetMapping("/correct/sort/get")
     @ResponseBody
-    public ResultBody getCorrectRateSort(String type) {
-        List<Integer> res = statisticsService.getCorrectRateSort(type);
+    public ResultBody getCorrectRateSort(@RequestBody QueryVO queryVO) {
+        String type = queryVO.getType();
+        if (!Validation.validateQuestionType(type)) {
+            return ResultBody.error(CommonEnum.INVALID_PARAMETER);
+        }
+        List<UserDO> res = statisticsService.getCorrectRateSort(type);
         return ResultBody.success(res);
     }
 
     // 每种类型题目的刷题量在本校中的排名
     @RequestMapping("/school/count/sort/get/{id}")
     @ResponseBody
-    public ResultBody getUserCountSortBySchool(@PathVariable("id") Integer id, String school, String type) {
-        Integer result = statisticsService.getUserCountSortBySchool(id, school, type);
+    public ResultBody getUserCountSortBySchool(@PathVariable("id") Integer id, @RequestBody QueryVO queryVO) {
+        if (!Validation.validateQuestionType(queryVO.getType())) {
+            return ResultBody.error(CommonEnum.INVALID_PARAMETER);
+        }
+        Integer result = statisticsService.getUserCountSortBySchool(id, queryVO.getSchool(), queryVO.getType());
         return ResultBody.success(result);
     }
 
     // 每种类型题目的正确率在本校中的排名
     @RequestMapping("/school/correct/sort/get/{id}")
     @ResponseBody
-    public ResultBody getUserCorrectSortBySchool(@PathVariable("id") Integer id, String school, String type) {
-        Integer result = statisticsService.getUserCorrectSortBySchool(id, school, type);
+    public ResultBody getUserCorrectSortBySchool(@PathVariable("id") Integer id, @RequestBody QueryVO queryVO) {
+        if (!Validation.validateQuestionType(queryVO.getType())) {
+            return ResultBody.error(CommonEnum.INVALID_PARAMETER);
+        }
+        Integer result = statisticsService.getUserCorrectSortBySchool(id, queryVO.getSchool(), queryVO.getType());
         return ResultBody.success(result);
     }
-
 
     @GetMapping("/last/get/{id}")
     @ResponseBody

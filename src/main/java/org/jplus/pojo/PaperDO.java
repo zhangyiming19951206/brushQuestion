@@ -1,5 +1,6 @@
 package org.jplus.pojo;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 /**
@@ -7,7 +8,9 @@ import java.sql.Timestamp;
  * @date 2020/8/14
  */
 public class PaperDO {
+    @NotNull
     private Integer pid;
+
     private Integer uid;
     private String topic_numbers;
     private Integer is_deleted;
