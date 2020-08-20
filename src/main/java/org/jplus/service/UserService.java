@@ -1,32 +1,14 @@
 package org.jplus.service;
 
-import org.jplus.dto.LoginVo;
-import org.jplus.pojo.Users;
-import org.jplus.pojo.queryVo.UserVo;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-
+import org.jplus.pojo.UserDO;
 
 public interface UserService {
-    Users login(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
 
-    boolean updatePassword(String gh,String oldPassword,String password,HttpServletRequest request);
+    void insertUser(UserDO user);
 
-    Integer checkGhIsRepeat(String gh);
+    void deleteUser(Integer id);
 
-    void addUser(Users user);
+    UserDO getUser(Integer id);
 
-    List<UserVo> getAllUsers(Integer yxbm);
-
-    void deleteUser(String gh);
-
-    List<UserVo> getAllOfficeUsers(Integer actor);
-
-    void addOfficeUser(Users user);
-
-    String findYxmcByYxbm(int yxbm);
-
-    Integer findYxmcByActor(String gh);
+    void updateUser(UserDO user);
 }

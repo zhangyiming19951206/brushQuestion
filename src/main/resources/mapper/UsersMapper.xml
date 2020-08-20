@@ -6,8 +6,20 @@
 
 <mapper namespace="org.jplus.mapper.UserMapper">
 
-    <insert id="addUser" parameterType="org.jplus.pojo.Users">
-        INSERT into users VALUES (#{gh}, #{yxbm}, #{uname}, #{upassword}, #{actor});
+    <insert id="insertUser" parameterType="org.jplus.pojo.UserDO">
+        INSERT into user VALUES (0, #{name}, #{school}, #{vendor}, #{is_deleted}, #{gmt_create}, #{gmt_modified});
     </insert>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM user WHERE id=#{id};
+    </delete>
+
+    <select id="getUser" parameterType="java.lang.Integer" resultType="org.jplus.pojo.UserDO">
+        SELECT * FROM user WHERE id=#{id};
+    </select>
+
+    <update id="updateUser" parameterType="org.jplus.pojo.UserDO">
+        UPDATE user SET name=#{name} , school=#{school} , vendor=#{vendor} WHERE id=#{id};
+    </update>
 
 </mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.jplus.mapper.RankMapper">
+
+    <insert id="insertRank" parameterType="org.jplus.pojo.RankDO">
+        INSERT INTO rank (userid, type, school, count, correct, is_deleted, gmt_create, gmt_modified) VALUES (#{userid}, #{type}, #{school}, #{count}, #{correct}, #{is_deleted}, #{gmt_create}, #{gmt_modified}) ON DUPLICATE KEY UPDATE count=#{count}, correct=#{correct};
+    </insert>
+
+    <select id="selectRankByType" resultType="org.jplus.pojo.RankDO">
+        SELECT * FROM rank WHERE userid=#{uid} AND type=#{type};
+    </select>
+
+</mapper>

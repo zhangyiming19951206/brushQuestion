@@ -7,15 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @BelongsProject: StatisticsTeach
- * @BelongsPackage: org.jplus
- * @Author: 17级jplus实验室全体成员
- * @CreateTime: 2019/10/31
- * @Description: Description
+ *
  */
 @SpringBootApplication
+@EnableTransactionManagement
 @MapperScan("org.jplus.mapper")
 public class Application {
     public static void main(String[] args) {
