@@ -22,16 +22,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 全局异常测试
-    @PostMapping("/test")
-    @ResponseBody
-    public String test(String name) {
-        if (name == null) {
-            throw new BizException("-1","用户姓名不能为空！");
-        }
-        return "test success";
-    }
-
     @PostMapping("/insert")
     @ResponseBody
     public ResultBody insertUser(@RequestBody UserDO user) {
